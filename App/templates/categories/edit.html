@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/send_unchecked_input.js') }}" defer></script>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/create.css') }}"> 
+{% endblock %}
+
+{% block content %}
+<form id="creation_form" method="POST">
+
+    <h1>
+        {% block title %}Edit Category{% endblock %}
+    </h1>
+    <div class="input_el">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name"
+             value="{{ category['name'] }}" maxlength="32" required>
+    </div>
+
+    <div class="input_el">
+        <label for="description">Description:</label>
+        <textarea name="description" id="description" maxlength="512">{{ category['description'] }}</textarea>
+    </div>
+
+    {% if included_recipes or free_recipes %}
+    <fieldset class="input_el">
+        <legend>Include/Exclude recipes</legend>
+        <ul class="editable_list">
+            <!-- Recipes which belong to the category
+                If unchecked, create hidden <input> data saying the server
+                that the recipe should be unlinked from the category -->
+            {% for recipe in included_recipes %}
+            <li><input type="checkbox" name="included_recipes[]" value="{{ recipe['id'] }}" checked>{{ recipe['title'] }}</li>
+            {% endfor %}
+
+            <!-- Recipes which do not belong to the category (logic the same as when creating a category) -->
+            {% for recipe in free_recipes %}
+            <li><input type="checkbox" name="free_recipes[]" value="{{ recipe['id'] }}">{{ recipe['title'] }}</li>
+            {% endfor %}
+        </ul>
+    </fieldset>
+    {% endif %}
+</form>
+
+<div id="bottom_buttons">
+    <input class="action_button" type="submit" form="creation_form" value="Save">
+
+    <form action="{{ url_for('category.display', id=category['id']) }}" method="GET">
+        <button class="action_button" id="cancel_button">
+            Cancel</button>
+    </form>
+
+    <!-- DELETING CATEGORY -->
+    <form action="{{ url_for('category.delete', id=category['id']) }}" method="post">
+        <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+    </form>
+</div>
+{% endblock %}

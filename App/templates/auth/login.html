@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="auth_window shadow_box">
+  <header><h2>{% block title %}Login{% endblock %}</h2></header>
+
+  <form method="post">
+    <div class="input_el">
+      <label for="username">Username</label>
+      <input name="username" id="username" required>
+    </div>
+    <div class="input_el">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
+    </div>
+    <input class="big_button" type="submit" value="Log In">
+
+  </form>
+  <span class="additional_message">Don't have an account? <a class="action_button" href="{{ url_for('auth.register') }}">Sign Up</a></span>
+</div>
+{% endblock %}

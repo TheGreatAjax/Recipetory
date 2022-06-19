@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main_display.css') }}">
+<style>
+    .recipe {
+        border-bottom: 2px dotted black;
+    }
+    .editable_list {
+        border-left: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<header id="main_header" class="shadow_box">
+    <h2>{% block title %} Menus {% endblock %}</h2>
+    
+    <span id="header_actions">
+        <form method="GET">
+            <input type="search" name="q" value="{{ query }}" placeholder="Search menus">
+            <button class="action_button">Search</button>
+        </form>
+        <div class="header_buttons">
+            <a class="action_button" href="{{url_for('menus.create') }}">New Menu</a>
+        </div>
+    </span>
+</header>
+
+{% if not menus %}
+    <p><em>
+    {% if query != "" %}
+        No menus match the query.
+    {% else %}
+        You don't have any menus yet.
+    {% endif %}
+    </em></p>
+{% else %}
+    <ul class="items_display">
+        {% for menu in menus %}
+        <li class="item">
+            <h3 class="item_title">
+                {% if not menu['title'] %}
+                {{ menu['id'] }}
+                {% else %}
+                {{ menu['title'] }}
+                {% endif %}
+            </h3>
+
+            <p class="item_description">
+                {% if menu['description'] %}
+                {{ menu['description'] }}
+                {% endif %}
+            </p>
+            
+            <hr>
+
+            <ul class="editable_list">
+                {% for course in menu['recipes'].split(',') %}
+                {% if course %}
+                    {% for recipe_id in course.split('-') %}
+                    <li class="recipe" data-id="{{ recipe_id }}">
+                        {{ recipe_titles[recipe_id] }}</li>
+                    {% endfor %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+            <a class="action_button"
+                href="{{ url_for('menus.edit', id=menu['id']) }}">
+                Edit</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

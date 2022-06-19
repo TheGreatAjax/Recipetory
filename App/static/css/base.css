@@ -1,0 +1,178 @@
+/* BIG Containers */
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100%;
+    margin: 0px;
+    font-family: sans-serif, serif;
+    position: relative;
+}
+
+#wrapper {
+    height: 100%;
+    /* max-width: 960px;     */
+    margin: 0px auto;
+}
+
+nav {
+    background-color: crimson;
+    height: 50px;
+    width: 100%;
+    margin: 0px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+nav > h1 {
+    padding-left: 5px;
+    flex: 3;
+}
+
+nav a {
+    color: white;
+    font-size: 110%;
+    /* padding: 10px 20px 10px 20px; */
+    margin: 10px;
+    flex: 1 50px;
+}
+
+.content {
+    min-height: calc(100% - 50px);    
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+#main_header {
+    /* background-color: lightgrey; */
+    width: 70%;
+    min-width: 500px;
+    min-height: 150px;
+    margin-top: 2%;
+    padding: 10px 20px;
+}
+
+#header_actions > * {
+    display: inline-block;
+    position: relative;
+}
+
+/* #header_buttons {
+    position: absolute;
+    right: 20px;
+} */
+
+#bottom_buttons {
+    align-self: flex-start;
+    position: relative;
+    left: 20px;
+
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+footer {
+    width: 100%;
+    color: lightgrey;
+    background-color: grey;
+
+    /* Stick footer to the bootom of the pages */
+    position: absolute;
+    bottom: 0px;
+}
+
+.shadow_box {
+    box-shadow: 0 1px 5px 0 rgba(0,0,0,.3);
+}
+
+/* General elements */
+
+a { 
+    text-decoration: none;
+    color: black
+}
+
+.link:hover {
+    text-decoration: underline;
+    color: orangered;
+}
+
+em {
+    margin: 10px;
+}
+
+
+/* LISTS */
+
+.editable_list {
+    min-width: 70%;
+    max-width: 200px;
+    overflow-y: scroll;
+    border-left: 2px solid lightpink;
+    padding-left: 0;
+    word-wrap: break-word;
+}
+
+.editable_list > li {
+    margin: 10px;
+    /* border-bottom: 1px solid lightcoral; */
+    list-style-type: none;
+    /* font-weight: bold; */
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+/* BUTTONS */
+
+.action_button {
+    color: white;
+    background-color: orangered;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px
+}
+
+.action_button:hover {
+    color: white;
+    background-color: crimson;
+}
+
+.big_button {
+    height: 50px;
+    width: 100%;
+
+    color: white;
+    background-color: rgb(195, 195, 195);
+    border: none;
+}
+
+.big_button:hover {
+    background-color: crimson;
+}
+
+.danger {
+    color: lightgrey;
+    background-color: grey;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px
+}
+
+.danger:hover {
+    color: white;
+    background-color: darkred;
+}
+
+.remove_button {
+    position: absolute;
+    right: 5px;
+
+    font-size: 80%;
+}

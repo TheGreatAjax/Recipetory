@@ -1,0 +1,49 @@
+.content {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+} 
+
+header {
+    /* width: 70%; */
+    width: 100%;
+    height: 150px;
+    background-color: palevioletred;
+    
+
+    text-align: center;
+}
+
+#main_header {
+    /* color: darkred; */
+    font-size: 250%;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 3px;
+}
+
+.main_item {
+    width: 80%;
+    /* text-align: left; */
+}
+
+#description {
+    text-align: lfet;
+}
+
+#features {
+    text-align: right;
+}
+
+#features > ul {
+    list-style-type: none;
+}
+
+li {
+    margin: 10px;
+    /* border-bottom: 2px solid crimson; */
+    
+}
+
+.action_button {
+    font-size: 110%;
+}

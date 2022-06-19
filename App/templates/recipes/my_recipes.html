@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main_display.css') }}">
+{% endblock %}
+
+{% block title %}My Recipes{% endblock %}
+
+{% block content %}
+    
+    <header id="main_header" class="shadow_box">
+        <h2>
+            {% if not category %}
+            All Recipes
+            {% else %}
+            {{ category['name'] }}
+            {% endif %}
+        </h2>
+        <span id="header_actions">
+            <form method="GET">
+                <input type="search" name="q" value="{{ query }}" placeholder="Search recipes">
+                <button class="action_button" type="submit">Search</button>
+            </form>
+            <div id="header_buttons">
+                <a class="action_button" href="{{ url_for('category.my_categories') }}">Categories</a>
+                <a class="action_button" href="{{ url_for('recipe.create') }}">New Recipe</a>
+            </div>
+        </span>
+    </header>
+    {% if not recipes %}
+        <p><em>
+        {% if query != '' %}
+            No recipes match the query.
+        {% elif category is not none %}
+            No recipes in the category.
+        {% else %}
+            You don't have any recipes yet.
+        {% endif %}
+        </em></p>
+    {% else %}
+    <ul class="items_display">
+        {% for recipe in recipes %}
+        <li class="item"> 
+
+            <a class="item_title link" href="{{ url_for('recipe.display', id=recipe['id'])}}">
+            {{ recipe['title'] }}</a>
+
+            <p class="item_description">
+            {% if not recipe['description'] %}
+            <em>No description.</em>
+            {% else %}
+            {{ recipe['description'] }} 
+            {% endif %}</p>
+            
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

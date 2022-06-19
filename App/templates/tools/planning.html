@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/plan.css')}}">
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/select_recipe.js')}}" defer></script>
+<script src="{{ url_for('static', filename='js/select_table_cell.js')}}" defer></script>
+<script src="{{ url_for('static', filename='js/remove_planned_recipe.js')}}" defer></script>
+{% endblock %}
+
+{% block content %}
+<form id="remove_week"
+     action="{{ url_for('planning.remove_week') }}" method='POST'></form>
+<div id="planner">
+    
+    <table id="calendar_planner">
+        <caption><h2>Planner!</h2></caption>
+
+        <thead>
+            <tr>
+                <th>Week №</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednsday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <!-- Filling the table from planned_recipes[week][day][course] -->
+        <tbody>
+
+        <!-- A week -->
+        {% for w in range(weeks_count) %}
+            <tr>
+            <!-- The day of the week -->
+            <th>{{ w + 1 }}</th>
+            {% for d in range(7) %}
+                <td class="clickable_cell" data-week="{{ w }}" data-day="{{ d }}">
+                    <ul class="recipes_list editable_list">
+                    <!-- Breakfast, Lunch, Dinner, Snack -->
+                    {% for course in range(5) %}
+                        {% for recipe in planned_recipes[w][d][course] %}
+                        <li class="planned_recipe">
+                            <a href="{{ url_for('recipe.display', id=recipe['id'])}}">
+                                {{ recipe['title'] }}</a>
+                            <button type="button" 
+                                class="remove_button"
+                                name="remove_recipe"
+                                value="{{ w + 1 }},{{ d + 1 }},{{ course }},{{ recipe['id'] }}">
+                                Remove
+                            </button>
+                        </li> 
+                        {% endfor %}
+                    </ul>
+                    {% endfor %}
+                </td>
+            {% endfor %}
+                <td>
+                    <button class="danger" form="remove_week"
+                        name="remove_week" value="{{ w + 1 }}">Remove week</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="{{ url_for('planning.add_week') }}" method='POST'>
+        <button class="action_button" type="submit">Add week</button>
+    </form>
+    
+    <div id="recipe_selector" class="shadow_box">
+
+        <fieldset id="recipes_list_container">
+            <legend><h3>Select Recipe</h3></legend>
+            <input type="search" name="q" placeholder="Search Recipes">
+            <button class="action_button">Search</button>
+
+            <ul class="recipes_list editable_list">
+                {% for recipe in recipes %}
+                <li class="recipe" data-id="{{ recipe['id'] }}">{{ recipe['title']}}</li>
+                {% endfor %}
+            </ul>
+            <p>Selected: <span id="selected"></span></p>
+        </fieldset>
+
+        <form id="parameters_container" method="POST">
+            <fieldset>
+            <legend><h3>Set time</h3></legend>
+            <input type="hidden" id="selected_id" name="selected_id">
+            
+                <div class="input_el">
+                    <label for="course">Course</label>
+                    <select id="course" name="course" required>
+                        <option value="0">-</option>
+                        <option value="1">Breakfast</option>
+                        <option value="2">Lunch</option>
+                        <option value="3">Dinner</option>
+                        <option value="4">Snack</option>
+                    </select>
+                </div>
+
+                <div class="input_el">
+                    <label for="week_n">Week №</label>
+                    <select id="week_n" name="week_n">
+                        {% for w in range(weeks_count) %}
+                        <option value="{{ w + 1 }}"> {{ w + 1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="input_el">
+                    <label for="day">Day</label>
+                    {% set week = ['Monday', 'Tuesday', 'Wednsday',
+                    'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+                    <select id="day" name="day" required>
+                        {% for day in week %}
+                        <option value={{ day }}>{{ day }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </fieldset>
+
+        </form>
+        <input class="action_button" type="submit"
+            form="parameters_container" value="Add">
+    </div>
+</div>
+{% endblock %}

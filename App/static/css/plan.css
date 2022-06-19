@@ -1,0 +1,150 @@
+@import url('input.css');
+
+.content {
+    position: relative;
+}
+
+#planner {
+    max-width: 90%;
+    max-height: 90vh;
+    position: absolute;
+    left: 5%;
+}
+
+#planner > form {
+    text-align: right;
+    margin-top: -2%;
+    margin-bottom: 5%;
+}
+
+/* THE TABLE */
+
+table#calendar_planner {
+    width:100%;
+    margin-bottom: 20px;
+    
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 1px solid grey;
+}
+
+thead {
+    text-align: center;
+    background-color: tomato;
+    letter-spacing: 2px;
+}
+
+
+td, th {
+    border: 1px solid grey;
+}
+
+th {
+    padding: 20px;
+}
+
+thead th {
+    width: calc((100% - 5%) / 7)
+}
+
+/* Week № */
+thead th:first-child {
+    width: 5%;
+}
+
+/* Remove button */
+thead th:last-child {
+    width: 0px;
+    padding: 0px;
+}
+
+td > form {
+    height: 100%;
+    /* position: relative; */
+}
+
+.danger {
+    font-size: 50%;
+    vertical-align: middle;
+
+}
+
+td.highlighted {
+    border: 2px solid orange;
+}
+
+td .editable_list {
+    border-left: none;
+}
+
+/* RECIPE SELECTOR */
+
+#recipe_selector {
+    padding: 5px;
+    /* width: 80%; */
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+}
+
+#recipes_list_container {
+    flex: 1;
+    padding: 5px 10px;
+}
+
+.recipes_list {
+    margin: 5px;
+    padding-left: 0px;
+    max-height: 80%;
+    overflow-y: scroll;
+    list-style-type: none;
+}
+
+.recipe {
+    width: 30%;
+    font-size: 110%;
+    margin: 1px;
+    padding-left: 5px;
+}
+
+#parameters_container {
+    flex: 1;
+    margin: 5px;
+    padding: 5px;
+}
+
+fieldset {
+    border: none;
+}
+
+.input_el {
+    margin: 10px;
+}
+
+.recipe:hover, .selected {
+    position: relative;
+    border-radius: 5px;
+    bottom: 5px;
+    left: 5px;
+}
+
+.recipe:hover:not(.selected) {
+    border: 3px solid orange;
+}
+
+.selected {
+    border: 3px solid red;
+}
+
+#recipe_selector > .action_button {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+
+input[type="search"] {
+    height: 30px;
+}

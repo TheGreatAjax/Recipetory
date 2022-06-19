@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/update_groceries.js') }}" defer></script>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recipe_display.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div id="item_display">
+    <div id="main_header" class="shadow_box">
+        <h1 id="title">{% block title %}{{ recipe['title'] }}{% endblock %}</h1>
+        <span id="category"><b>Category</b>: 
+            {% if not category %} - {% else %}
+            <a class="link" href="{{ url_for('category.display', id=category['id'])}}">
+                {{ category['name'] }} {% endif %}</a></span>
+
+        <p id="description">
+            {% if recipe['description'] is none %}
+            <em>No description.</em>
+            {% else %}
+            {{ recipe['description'] }}
+            {% endif %}
+        </p>
+        <hr>
+
+        <p class="time"><b>Prep</b>: {{ recipe['prep_t']}}</p>
+        <p class="time"><b>Cook</b>: {{ recipe['cook_t']}}</p>
+        <p class="time"><b>Total</b>: {{ recipe['total_t']}}</p>
+    </div>
+
+    <div class="gallery">
+        <!-- gallery! -->
+    </div>
+
+    <div class="info_box shadow_box" id="ingredients">
+        <h2>Ingredients</h2>
+        <span id="servings">
+            Per {{ recipe['servings'] }} servings</span>
+
+        {% set ingredients = recipe['ingredients'].split(',') %}
+        <ul id="ingr_list" class="editable_list">
+            {% for ingr in ingredients %}
+            <li class="ingredient">
+                {% if ingr in groceries %}
+                <input type="checkbox"
+                    name="grocery"
+                    value="{{ ingr }}"
+                    checked disabled>
+                {% else %}
+                <input type="checkbox" name="" value="{{ ingr }}">
+                {% endif %}
+                {{ ingr }}
+            </li>
+            {% endfor %}   
+        </ul>
+
+        <button class="big_button" id="add_to_groceries" type="button">
+            Add Selected to Grocery List.</button>
+
+        <form action="{{ url_for('groceries.display')}}" method="GET">
+            <button class="big_button" id="go_to_groceries">Go to Groceries</button>
+        </form>
+    </div>
+
+    <div class="info_box shadow_box" id="directions">
+        <h2>Directions</h2>
+        <p>{{ recipe['directions']}}</p>
+    </div>
+
+    <div class="info_box shadow_box" id="notes">
+        <h2>Notes</h2>
+        <p>
+        {% if not recipe['notes'] %}
+        <em>No notes.</em>
+        {% else %}
+        {{ recipe['notes'] }}
+        {% endif %}</p>
+
+        <h4>Links</h4>
+        {% if not recipe['links'] %}
+        -
+        {% else %}
+        {% set links = recipe['links'].split(',') %}
+        <ul id="links_list" class="editable_list">
+            {% for link in links %}
+            <li class="link"><a href="{{ link }}">{{ link }}</a></li>
+            {% endfor %}   
+        </ul>
+        {% endif %}
+    </div>
+
+</div>
+
+<div id="buttom_buttons">
+    <a class="action_button" href="{{ url_for('recipe.edit', id=recipe['id']) }}">Edit Recipe</a>
+</div>
+{% endblock %}

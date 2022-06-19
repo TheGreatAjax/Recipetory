@@ -1,0 +1,4 @@
+include Recipetory/schema.sql
+graft Recipetory/static
+graft Recipetory/templates
+global-exclude *.pyc

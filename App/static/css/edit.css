@@ -1,0 +1,41 @@
+@import url('recipe_display.css');
+@import url('input.css');
+
+input[type="text"], input[type="url"] {
+    max-width: 60%;
+}
+
+.title, .description, .directions p, .notes p {
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+.editable_list {
+    width: 80%;
+    list-style-type: disc;
+}
+
+.ingredient, .link {
+    /* max-width: 80%; */
+    margin: 15px;
+    position: relative;
+}
+
+.listBtn {
+    position: absolute;
+    right: 10px;
+}
+
+/* .delete {
+    width: 5em;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+#save {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+} */
+

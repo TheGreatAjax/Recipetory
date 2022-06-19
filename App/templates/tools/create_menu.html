@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/pick_recipe.js')}}" defer></script>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/create.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recipe_picker.css') }}"> 
+{% endblock %}
+
+{% block content %}
+
+<form id="creation_form" class="shadow_box" method="POST">
+    <h1>
+        {% block title %}New Menu{% endblock %}
+    </h1>
+    <div class="input_el">
+        <label for="title">Title</label>
+        <input type="text", id="title" name="title" maxlength="32">
+    </div>
+
+    <div class="input_el">
+        <label for="description">Description (optional) </label>
+        <textarea id="description" name="description" maxlength="512"
+                rows="5" cols="20"></textarea>
+    </div>
+
+    <h3>Include recipes</h3>
+    <div id="recipe_picker">
+        <div id="recipes_list_container">
+            <input type="search" name="q" 
+                maxlength="32" placeholder="Search Recipes">
+            <button class="action_button">Search</button>
+
+            <ul class="recipes_list" id="all_recipes">
+                {% for recipe in recipes %}
+                <li class="recipe">
+                    {{ recipe['title']}}
+                    <input type="hidden" value="0{{ recipe['id'] }}">
+                    <button class="action_button pick_button"
+                     type="button">
+                        Add
+                    </button>
+                    
+                </li>
+                {% endfor %}
+            </ul>
+            
+        </div>
+        <div id="selected_recipes_container">
+            <h4>Selected recipes</h4>
+            <ul class="recipes_list" id="selected_recipes">
+                
+            </ul>
+        </div>
+    </div>
+
+    <input class="action_button" type="submit" value="Create Menu">
+</form>
+
+{% endblock %}

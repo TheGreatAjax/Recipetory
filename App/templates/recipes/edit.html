@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/update_list.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/edit.js') }}" defer></script>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recipe_display.css') }}">
+<style>
+    @import url("{{ url_for('static', filename='css/input.css') }}");
+    #title, #description, #directions p, #notes p {
+        border: 1px solid black;
+        border-radius: 2px;
+    }
+    #delete {
+        justify-self: flex-end;
+    }
+</style>
+{% endblock %}
+
+{% block title %}Edit{% endblock %}
+
+{% block content %}
+
+<form id="item_display" method="POST">
+    <div id="main_header" class="shadow_box">
+        <h1 id="title" contenteditable="true">
+            {{ recipe['title'] }}
+            <!-- To be sent to the server -->
+            <input type="hidden" id="title_input" name="title">
+        </h1>
+
+        <p id="description" contenteditable="true">
+            {% if recipe['description'] is none %}
+            <em>No description.</em>
+            {% else %}
+            {{ recipe['description'] }}
+            {% endif %}
+
+            <!-- To be sent to the server -->
+            <input type="hidden" id="description_input" name="description">
+        </p>
+        <hr>
+
+        <div class="input_el">
+            <label for="category"><b>Category</b></label>
+            <select id="cateogry" name="category">
+                <option value="NULL"></option>
+                {% for category in categories %}
+                    {% if category['id'] == recipe['category_id'] %}
+                    <option value="{{ category['id'] }}" selected>{{ category['name'] }}</option>
+                    {% else %}
+                    <option value="{{ category['id'] }}">{{ category['name'] }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="input_el">
+            <label for="">Prep (min)</label>
+            <input class="time" type="number" id="prep_t" name="prep_t" min="0" max="999"
+                value="{{ recipe['prep_t'] }}" required>
+        </div>
+
+        <div class="input_el">
+            <label for="">Cook (min)</label>
+            <input class="time" type="number" id="cook_t" name="cook_t" min="0" max="999"
+                value="{{ recipe['cook_t'] }}" required>
+        </div>
+    </div>
+
+    <div class="gallery">
+        <!-- gallery! -->
+    </div>
+
+    <div class="info_box shadow_box" id="ingredients">
+        <h2>Ingredients</h2>
+        <span class="servings">Per <input type="number" id="servings" name="servings" maxlength="3"
+            value="{{ request.form['servings'] or recipe['servings'] }}" required> servings</span>
+
+            {% set ingredients = recipe['ingredients'].split(',') %}
+            <ul id="ingr_list" class="editable_list">
+                {% for ingr in ingredients %}
+                <li class="ingredient">
+                    <span contenteditable="true">{{ ingr }} 
+                        <!-- To be sent to the server -->
+                        <input type="hidden" name="ingredient[]">
+                    </span>
+                    
+                    <button class="remove_button" type="button">Remove</button>
+                </li>
+                {% endfor %}   
+            </ul>
+
+        <div class="input_el">
+            <input type="text" id="ingr_input" name="ingr_input" maxlength="64"
+                placeholder="Add new ingredient">
+            <button class="action_button add_button" type="button" id="add_ingr_btn"
+                data-input="#ingr_input"
+                data-list="#ingr_list"
+                data-item_name ="ingredient">Add</button>
+        </div>
+    </div>
+
+    <div class="info_box shadow_box" id="directions">
+        <h2>Directions</h2>
+        <p contenteditable="true">{{ recipe['directions']}}
+            <!-- To be sent to the server -->
+            <input type="hidden" id="directions_input" name="directions">
+        </p>
+    </div>
+
+    <div class="info_box shadow_box" id="notes">
+        <h2>Notes</h2>
+        <p contenteditable="true">
+            {% if not recipe['notes'] %}
+            <em>No notes.</em>
+            {% else %}
+            {{ recipe['notes'] }}
+            {% endif %}
+            <!-- To be sent to the server -->
+            <input type="hidden" id="notes_input" name="notes">
+        </p>
+
+        <h4>Links</h4>
+
+        {% if not recipe['links'] %}
+            {% set links = [] %}
+        {% else %}
+            {% set links = recipe['links'].split(',') %}
+        {% endif %}
+        <ul id="links_list" class="editable_list">
+            {% for link in links %}
+            <li class="link">
+                <span contenteditable="true">{{ link }} 
+                    <!-- To be sent to the server -->
+                    <input type="hidden" name="link[]">
+                </span>
+                
+                <button class="remove_button" type="button">Remove</button>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="input_el">
+            <input type="url" id="links_input"
+                 name="links_input" placeholder="https://www.example.com/">
+            <button class="action_button add_button" type="button" id="add_link_btn"
+                data-input="#links_input"
+                data-list="#links_list"
+                data-item_name ="link">Add</button>
+        </div>
+    </div>
+</form>
+<div id="buttom_buttons">
+    <button class="action_button" id="edit_button" form="item_display">
+        Save </button>
+
+    <form action="{{ url_for('recipe.display', id=recipe['id']) }}" method="GET">
+        <button class="action_button" id="calcel_button">
+            Cancel </button>
+    </form>
+
+    <!-- DELETING RECIPE -->
+    <form id="delete" action="{{ url_for('recipe.delete', id=recipe['id']) }}" method="POST">
+        <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+    </form>
+</div>
+{% endblock %}

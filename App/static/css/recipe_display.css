@@ -1,0 +1,85 @@
+#item_display {
+    min-height: 80vh;
+    margin: 0px 20px;
+    padding: 20px;
+
+    display: grid;
+    grid-template-areas: 
+        "main_header main_header main_header gallery gallery gallery"
+        "main_header main_header main_header gallery gallery gallery"
+        "ingredients ingredients directions directions notes notes"
+        "ingredients ingredients directions directions notes notes";
+    grid-template-columns: repeat(6, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+b {
+    color: darkred;
+}
+
+/* main_header */
+.main_header {
+    grid-area: main_header;
+    margin: 10px;
+}
+
+    #title {
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+
+    #description {
+        word-break: break-all;
+        /* margin-top: -20px;    */
+    }
+
+    #category, #servings {
+        font-size: 80%;
+    }
+
+    .time {
+        margin: 5px 0;
+    }
+
+/* GALLERY */
+.gallery {
+    grid-area: gallery;
+}
+
+.info_box {
+    margin: 10px;
+    padding: 10px;
+    word-break: break-all;
+
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+
+    position: relative;
+}
+
+    .info_box > h2 {
+        margin-bottom: 0;
+    }
+
+    .info_box > form {
+        width: 100%;
+    }
+
+#ingredients {
+    grid-area: ingredients;
+}
+
+    #add_to_groceries, #go_to_groceries {
+        display: none;
+    }
+
+/* DIRECTIONS */
+#directions {
+    grid-area: directions; 
+}
+
+#notes {
+    grid-area: notes;
+}
+

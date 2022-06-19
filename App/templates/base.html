@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %}</title>
+        {% block script %}{% endblock %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+        {% block style %}{% endblock %}
+    </head>
+    <body>
+    <div id="wrapper">
+        <nav>
+            <h1><a href="{{ url_for('Main') }}">Recepetory</a></h1>
+            <a href="{{ url_for('recipe.my_recipes') }}">My Recipes</a> 
+            <a href="{{ url_for('groceries.display') }}">Groceries</a>
+            <a href="{{ url_for('planning.display')}}">Planning</a>
+            <a href="{{ url_for('menus.display')}}">Menus</a>
+            <!-- <a href="">Pantry</a> -->
+            {% if g.user %}
+             <a href="{{ url_for('auth.logout') }}">Logout</a>
+            {% else %}
+             <a href="{{ url_for('auth.register')}}">Sign Up</a>
+            {% endif %}
+        </nav>
+
+        <div class="content">
+
+        {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+
+        </div>
+        <!-- <footer>
+            Footer.
+        </footer> -->
+    </div>
+    </body>
+</html>

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<style>
+    @import url("{{ url_for('static', filename='css/input.css')}}");
+</style>
+{% endblock %}
+
+
+{% block content %}
+    <header id="main_header" class="shadow_box">
+        <h2>{% block title %}Grocery List{% endblock %}</h2>
+
+        <span id="header_actions">
+            <form id="update_list" action="{{ url_for('groceries.add') }}" method="POST">
+                <input type="text" name="new" 
+                    required maxlength="64"
+                    placeholder="Add ingredient to the list">
+                <button class="action_button">Add</button>
+            </form>
+            <form action="{{ url_for('groceries.empty') }}" method="POST">
+                <input class="danger" type="submit" value="Empty List" onclick="return confirm('Are you sure?');">
+            </form>
+        </span>
+    </header>
+
+    <form id="remove_item" action="{{ url_for('groceries.remove')}}" method="POST">
+    </form>
+
+    {% if not groceries %}
+     <p><em>Grocery list is empty.</em></p>
+    {% else %}
+    <ul class="editable_list">
+        {% for item in groceries %}
+        <li class="grocery">
+            <input type="checkbox">
+            {{ item }}
+            <button class="remove_button"
+                    form="remove_item" 
+                    name="remove" 
+                    value="{{ item }}">
+                    Remove</button>
+        </li>
+        {% endfor %}
+    </ul>
+    
+    {% endif %}
+    
+{% endblock %}

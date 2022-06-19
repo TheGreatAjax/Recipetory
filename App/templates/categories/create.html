@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/create.css') }}">
+{% endblock %}
+
+{% block content %}
+<form id="creation_form" method="POST">
+    <h2>{% block title %}Create Category{% endblock %}</h2>
+    <div class="input_el">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="category_name" maxlength="32" required>
+    </div>
+
+    <div class="input_el">
+        <label for="description">Description:</label>
+        <textarea name="description" id="description"
+            rows="5" cols="30" maxlength="512"></textarea>
+    </div>  
+
+    {% if recipes %}
+    <fieldset class="input_el">
+     <legend><h4>Add recipes to the category:</h4></legend>
+        <ul class="editable_list">
+            {% for recipe in recipes %}
+            <li><input type="checkbox" name="recipe[]" value="{{ recipe['id'] }}">{{ recipe['title'] }}</li>
+            {% endfor %}
+        </ul>
+    </fieldset>
+    {% endif %}
+    <input class="action_button" type="submit" value="Create">
+</form>
+{% endblock %}

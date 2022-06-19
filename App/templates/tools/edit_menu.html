@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/pick_recipe.js')}}" defer></script>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/create.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recipe_picker.css') }}"> 
+{% endblock %}
+
+{% block content %}
+
+<form class="creation_form" method="POST">
+    <h1>
+        {% block title %}Edit Menu{% endblock %}
+    </h1>
+    <div class="input_el">
+        <label for="title">Title</label>
+        <input type="text", id="title" name="title" minlength="1" maxlength="32"
+            value="{{ menu['title'] }}">
+    </div>
+
+    <div class="input_el">
+        <label for="description">Description (optional) </label>
+        <textarea id="description" name="description" maxlength="512"
+                rows="5" cols="20">{{ menu['description'] }}</textarea>
+    </div>
+
+    <fieldset class="input_el">
+    <legend><h3>Include/Exclude recipes</h3></legend>
+    <div id="recipe_picker">
+        <div id="recipes_list_container">
+            <input type="search" name="q" placeholder="Search Recipes">
+            <button class="action_button">Search</button>
+
+            <ul class="recipes_list editable_list" id="all_recipes">
+                {% for recipe in all_recipes %}
+                <li class="recipe" data-id="{{ recipe['id'] }}">
+                    {{ recipe['title']}}
+                    <input type="hidden" value="0{{ recipe['id'] }}">
+                    <button class="action_button pick_button"
+                     type="button">
+                        Add
+                    </button>
+                    
+                </li>
+                {% endfor %}
+            </ul>
+            
+        </div>
+        <div id="selected_recipes_container">
+            <h4>Selected recipes</h4>
+
+            {% set course_names = 
+                ['-', 'Breakfast', 'Lunch', 'Dinner', 'Snack'] %}
+            <ul class="recipes_list editable_list" id="selected_recipes">
+             {% for course in included_recipes %}
+             {% set c_indx = loop.index0 %}
+              {% for recipe in course %}
+               <li class="recipe">
+                    {{ recipe['title']}}
+                    <input type="hidden"
+                        value="{{ c_indx }}{{ recipe['id'] }}"
+                        name="selected_recipe">
+                    <select class="select_course">
+                        {% for c in range(5) %}
+                         {% set c = loop.index0 %}
+                         {% if c == c_indx %}
+                         <option value="{{ c }}" selected>{{ course_names[c] }}</option>
+                         {% else %}
+                         <option value="{{ c }}">{{ course_names[c] }}</option>
+                         {% endif %}
+                        {% endfor %}
+                    </select>
+                    <button class="remove_button" type="button">
+                        Remove</button>
+               </li>
+              {% endfor %}
+             {% endfor %}
+            </ul>
+        </div>
+    </fieldset>
+    </div>
+
+    <input class="action_button" type="submit" value="Save">
+    <form action="{{ url_for('menus.display') }}" method="GET">
+        <button class="action_button" id="calcel_button">
+            Cancel </button>
+    </form>
+    <button class="danger" form="delete" onclick="return confirm('Are you sure?');">Delete</button>
+</form>
+
+<form id="delete" action="{{ url_for('menus.delete', id=menu['id']) }}" method="POST">
+</form>
+
+{% endblock %}

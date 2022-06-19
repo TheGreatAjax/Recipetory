@@ -1,0 +1,32 @@
+#recipe_picker {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    position: relative;
+}
+
+
+#recipes_list_container, #selected_recipes_container {
+    flex: 1;
+    margin: 10px;
+    border: 2px solid lightgrey;
+    padding: 10px;
+}
+
+.recipes_list {
+    /* border: 1px solid grey; */
+    width: 100%;
+    margin: 5px;
+    padding-left: 0px;
+    max-height: 80%;
+    overflow-y: scroll;
+    list-style-type: none;
+}
+
+.recipe {
+    width: 100%;
+}
+
+.select_course {
+    font-size: 80%;
+}

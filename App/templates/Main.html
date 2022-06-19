@@ -1,0 +1,35 @@
+
+{% extends 'base.html' %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+{% endblock %}
+
+{% block content %}
+
+<header>
+    <h1 id="main_header"> RECIPETORY </h1>  
+</header>
+
+<div class="main_item" id="description">
+    <h2>What is {% block title %}Recipetory?{% endblock %}</h2>
+
+    <p> The website will help you to organize your
+        recipes in convenient way, <br> making your cooking much easier. </p>
+</div>
+
+<div class="main_item" id="features">
+    <h2> Features</h2>
+    <ul>
+        <li>Organize Your Recipes</li>
+        <li>Create Grocery List</li>
+        <li>Plan Your Meals Weeks Ahead</li>
+        <li>Create Personal Menus.</li>
+    </ul>
+</div>
+<div id="buttons">
+    <a class="action_button" href="{{ url_for('auth.login') }}">Login</a>
+    <a class="action_button" href="{{ url_for('auth.register') }}">Sign Up</a>
+</div>
+
+{% endblock %}
