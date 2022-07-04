@@ -7,7 +7,7 @@
 {% block script %}
 <script src="{{ url_for('static', filename='js/select_recipe.js')}}" defer></script>
 <script src="{{ url_for('static', filename='js/select_table_cell.js')}}" defer></script>
-<script src="{{ url_for('static', filename='js/remove_planned_recipe.js')}}" defer></script>
+<script src="{{ url_for('static', filename=' js/remove_planned_recipe.js')}}" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
 <div id="planner">
     
     <table id="calendar_planner">
-        <caption><h2>Planner!</h2></caption>
+        <caption><h2>{% block title %}Planner {% endblock %}</h2></caption>
 
         <thead>
             <tr>
