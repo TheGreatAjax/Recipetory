@@ -1,6 +1,6 @@
 To run the website (manually)
 1. Download the project folder
-2. Create virtual and activate environment
+2. Create virtual environment and activate it
     ```
     python3 -m venv venv
     source venv/bin/activate
@@ -16,3 +16,4 @@ To run the website (manually)
     flask init-db
     flask run
     ```
+5. Go to http://127.0.0.1:5000/ in your browser
